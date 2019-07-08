@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Prometheus-Operator">
+<meta property="og:url" content="https://enhuali.com/2019/07/07/Prometheus-operator/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Prometheus-operator/pics/Prometheus_01.png">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Prometheus-operator/pics/grafana-01.jpg">
+<meta property="og:updated_time" content="2019-07-08T02:50:28.751Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Prometheus-Operator">
+<meta name="twitter:image" content="https://enhuali.com/2019/07/07/Prometheus-operator/pics/Prometheus_01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://enhuali.com/2019/07/07/Prometheus-operator/">
+
+
+
+
+
+  <title>Prometheus-Operator | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://enhuali.com/2019/07/07/Prometheus-operator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="EnHua Li">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Prometheus-Operator</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T20:32:24+08:00">
+                2019-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/07/Prometheus-operator/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/07/Prometheus-operator/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="pics/Prometheus_01.png" alt="img"></p>
+<a id="more"></a>
+
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>通过helm安装</p>
+<h2 id="下载项目"><a href="#下载项目" class="headerlink" title="下载项目"></a>下载项目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm fetch stable/prometheus-operator --version 5.10.2 --untar</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm install --name promethues-operator --namespace monitoring prometheus-operator</span><br></pre></td></tr></table></figure>
+
+<p>没错以上就安装完了，可以进行单纯的访问使用啦。但由于此项目更贴近于rancher部署的k8s集群，所以初始化中对etcd/kube-schuduler/kube-controller-manager监控不了，除此之外还有一些基本参数需根据需求调整。</p>
+<h1 id="参数配置"><a href="#参数配置" class="headerlink" title="参数配置"></a>参数配置</h1><h2 id="定义配置文件"><a href="#定义配置文件" class="headerlink" title="定义配置文件"></a>定义配置文件</h2><p>这个文件（prom-seting.yaml）的作用是根据charts预留的变量进行赋值，没在此文件中配置的均使用<a href="https://hub.helm.sh/charts/stable/prometheus-operator" target="_blank" rel="noopener">官方默认参数</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">kubeControllerManager:</span><br><span class="line">  endpoints:</span><br><span class="line">  - 10.16.200.101</span><br><span class="line">  - 10.16.200.102</span><br><span class="line">  - 10.16.200.103</span><br><span class="line"></span><br><span class="line">kubeScheduler:</span><br><span class="line">  endpoints:</span><br><span class="line">  - 10.16.200.101</span><br><span class="line">  - 10.16.200.102</span><br><span class="line">  - 10.16.200.103</span><br><span class="line"></span><br><span class="line">kubeEtcd:</span><br><span class="line">  endpoints:</span><br><span class="line">  - 10.16.200.101</span><br><span class="line">  - 10.16.200.102</span><br><span class="line">  - 10.16.200.103</span><br><span class="line"></span><br><span class="line">  serviceMonitor:</span><br><span class="line">    scheme: https</span><br><span class="line">    insecureSkipVerify: true</span><br><span class="line">    serverName: etcd</span><br><span class="line">    caFile: /etc/prometheus/secrets/etcd-certs/ca.pem</span><br><span class="line">    certFile: /etc/prometheus/secrets/etcd-certs/etcd.pem</span><br><span class="line">    keyFile: /etc/prometheus/secrets/etcd-certs/etcd-key.pem</span><br><span class="line"></span><br><span class="line">prometheus:</span><br><span class="line">  ingress:</span><br><span class="line">    enabled: true</span><br><span class="line">    hosts:</span><br><span class="line">    -  prometheus.ingress.com</span><br><span class="line">  service:</span><br><span class="line">    type: NodePort</span><br><span class="line">    nodePort: 39000</span><br><span class="line">  prometheusSpec:</span><br><span class="line">    secrets:</span><br><span class="line">    - etcd-certs</span><br><span class="line">    #nodeSelector:</span><br><span class="line">    #  kubernetes.io/hostname: 10.16.200.108</span><br><span class="line">    storageSpec:</span><br><span class="line">      volumeClaimTemplate:</span><br><span class="line">        spec:</span><br><span class="line">          storageClassName: managed-nfs-storage</span><br><span class="line">          accessModes: [&quot;ReadWriteOnce&quot;]</span><br><span class="line">          resources:</span><br><span class="line">            requests:</span><br><span class="line">              storage: 10Gi</span><br><span class="line">    replicas: 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">alertmanager:</span><br><span class="line">  ingress:</span><br><span class="line">    enabled: true</span><br><span class="line">    hosts:</span><br><span class="line">    -  alertmanager.ingress.com</span><br><span class="line">  service:</span><br><span class="line">    type: NodePort</span><br><span class="line">    nodePort: 39001</span><br><span class="line">  alertmanagerSpec:</span><br><span class="line">    #nodeSelector:</span><br><span class="line">    #  kubernetes.io/hostname: 10.16.200.108</span><br><span class="line">    storage:</span><br><span class="line">     volumeClaimTemplate:</span><br><span class="line">       spec:</span><br><span class="line">         storageClassName: managed-nfs-storage</span><br><span class="line">         accessModes: [&quot;ReadWriteOnce&quot;]</span><br><span class="line">         resources:</span><br><span class="line">           requests:</span><br><span class="line">             storage: 50Gi</span><br><span class="line">    replicas: 1</span><br><span class="line"></span><br><span class="line">grafana:</span><br><span class="line">  ingress:</span><br><span class="line">    enabled: true</span><br><span class="line">    hosts:</span><br><span class="line">    -  grafana.ingress.com</span><br><span class="line">  service:</span><br><span class="line">    type: NodePort</span><br><span class="line">    nodePort: 39002</span><br><span class="line">  </span><br><span class="line">#kubeStateMetrics:</span><br><span class="line">#  image:</span><br><span class="line">#      repository: mirrorgooglecontainers/kube-state-metrics</span><br><span class="line">#      repository: quay.io/coreos/kube-state-metrics</span><br></pre></td></tr></table></figure>
+
+<p><code>kubeControllerManager</code> <code>kubeScheduler</code> <code>kubeEtcd</code> 前面有提到当这三个组件不是通过Container部署时，需要申明其部署的主机ip</p>
+<ul>
+<li>etcd使用安全（既证书）部署时，需创建secret资源并提供给prometheus内部识别</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 创建命名为etcd-certs的secret资源</span><br><span class="line">kubectl -n monitoring create secret generic etcd-certs --from-file=/etc/kubernetes/ssl/ca.pem  --from-file=/etc/etcd/ssl/etcd.pem --from-file=/etc/etcd/ssl/etcd-key.pem</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是namespace需要和部署prometheus的相同，对应密钥位置和最重要的<em>命名</em>（它会在prometheus中的/etc/prometheus/secrets下创建”命名”目录）用于上文中填写证书存放识别</p>
+<ul>
+<li>kubeControllerManager  kubeScheduler 这两个服务端口10252/10251一定是监听的0.0.0.0，否则prometheus在获取其metric时会抛出connection x.x.x.x 10251 timeout；需要调整Unit文件中–address配置</li>
+</ul>
+<p><code>prometheus</code> <code>alertmanager</code> <code>grafana</code> 下的配置采用配置Ingress地址/NodePort方式/绑定到固定的节点上（当使用hostPath作为持久化方案时需要配置）/使用动态pv/控制实例数量</p>
+<ul>
+<li>其中需要注意的是在prometheus中申明使用刚才创建的secret资源，名字一定是刚才的命名”etcd-certs”</li>
+</ul>
+<p><code>kubeStateMetrics</code> 在此项目中未预留且镜像用的国外的不易下载，我们需要修改其中的镜像名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim prometheus-operator/charts/kube-state-metrics/values.yaml</span><br><span class="line"># 将k8s.gcr.io/kube-state-metrics 改为quay.io/coreos/kube-state-metrics</span><br></pre></td></tr></table></figure>
+
+<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>此项目默认是没有将数据进行持久化，Volume方式均采用的EmptyDir,意味着期间运行的数据随着Pod的周期而丢失，真正生产环境我们对数据的持久化是必不可少的；持久化的方式有两种，一种是采用hostPath本地落盘，另一种就是采用Persistent Volume即共享存储，官方推荐是采用hostPath方式，因为毕竟一个Prometheus-operator具备处理千万数据的处理能力，但如果涉及其高可用那就只能采用共享存储来做，接下来介绍一下两者的配置方式及需要注意的点</p>
+<h3 id="HostPath"><a href="#HostPath" class="headerlink" title="HostPath"></a>HostPath</h3><ol>
+<li><p>首先获取相关应用的yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pod xxxx -n monitoring -o yaml &gt; /tmp/xxx.yaml</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查找其yaml中的volumeMounts、volumes字段对应挂载的位置信息，同样可以快速定位到empty的位置，主要获取有效挂载路径或名称</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- emptyDir: &#123;&#125;</span><br><span class="line">  name: sc-dashboard-volume</span><br><span class="line">- configMap:</span><br><span class="line">    defaultMode: 420</span><br><span class="line">    name: promethues-operator-grafana-config-dashboards</span><br><span class="line">  name: sc-dashboard-provider</span><br><span class="line">- emptyDir: &#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用上一步骤获取到的有效挂载路径或名称在charts中进行搜索</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep -r &apos;sc-dashboard-provider&apos; prometheus-operator/*</span><br><span class="line"># 搜索到结果prometheus-operator/charts/grafana/templates/deployment.yaml</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将empty挂载方式改为hostPath</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">    persistentVolumeClaim:</span><br><span class="line">      claimName: &#123;&#123; .Values.persistence.existingClaim | default (include &quot;grafana.fullname&quot; .) &#125;&#125;</span><br><span class="line">&#123;&#123;- else &#125;&#125;</span><br><span class="line">    #emptyDir: &#123;&#125;</span><br><span class="line">    hostPath:</span><br><span class="line">      path: /data/grafana</span><br><span class="line">&#123;&#123;- end -&#125;&#125;</span><br><span class="line">&#123;&#123;- if .Values.sidecar.dashboards.enabled &#125;&#125;</span><br><span class="line">  - name: sc-dashboard-volume</span><br><span class="line">    #emptyDir: &#123;&#125;</span><br><span class="line">    hostPath:</span><br><span class="line">      path: /data/dashboard-provider          </span><br><span class="line">  - name: sc-dashboard-provider</span><br><span class="line">    configMap:</span><br><span class="line">      name: &#123;&#123; template &quot;grafana.fullname&quot; . &#125;&#125;-config-dashboards</span><br><span class="line">&#123;&#123;- end &#125;&#125;</span><br><span class="line">&#123;&#123;- if .Values.sidecar.datasources.enabled &#125;&#125;</span><br><span class="line">  - name: sc-datasources-volume</span><br><span class="line">    #emptyDir: &#123;&#125;</span><br><span class="line">    hostPath:</span><br><span class="line">      path: /data/datasources</span><br><span class="line">&#123;&#123;- end -&#125;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上文有提到，使用hostPath作为持久化存储时需要使用nodeSelector参数进行Pod分配绑定到固定节点</p>
+</li>
+<li><p>在节点下创建步骤4中hostPath目录，并将权限给定为777或者进入容器内确定启动容器的用户uid:gid并赋予给这几个目录</p>
+</li>
+</ol>
+<h3 id="Persistent-Volume-Claim"><a href="#Persistent-Volume-Claim" class="headerlink" title="Persistent Volume Claim"></a>Persistent Volume Claim</h3><ol>
+<li><p>已存在nfs文件存储</p>
+</li>
+<li><p>使用动态pv</p>
+<ul>
+<li><p><code>prometheus</code> <code>alertmanager</code> 配置在项目中预留出相关变量，我们将对应的配置定义在prom-seting.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">prometheus:</span><br><span class="line">    storageSpec:</span><br><span class="line">      volumeClaimTemplate:</span><br><span class="line">        spec:</span><br><span class="line">          storageClassName: managed-nfs-storage</span><br><span class="line">          accessModes: [&quot;ReadWriteOnce&quot;]</span><br><span class="line">          resources:</span><br><span class="line">            requests:</span><br><span class="line">              storage: 10Gi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">alertmanager:</span><br><span class="line">    storage:</span><br><span class="line">     volumeClaimTemplate:</span><br><span class="line">       spec:</span><br><span class="line">         storageClassName: managed-nfs-storage</span><br><span class="line">         accessModes: [&quot;ReadWriteOnce&quot;]</span><br><span class="line">         resources:</span><br><span class="line">           requests:</span><br><span class="line">             storage: 50Gi</span><br></pre></td></tr></table></figure>
+
+<p>由于prometheus和alertmanager采用的是statusetful类型进行的部署，所以如果使用pvc进行持久化数据，一定要确保replicas的数量是大于等于之前的数值，否则会存在部署数据不可读，通常这两个值保持为1即可，毕竟它们具备处理千万级别数据，如果你的集群足够大或者为了提高其高可用性可以将其初始定义为2或者更多</p>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p><code>grafana</code> 需在其charts（prometheus-operator/charts/grafana）下定义，并且有两种方式可以定义，分别说明一下其配置及相关注意事项</p>
+<ol>
+<li><p>定义templates/deployment.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># 预先创建pv(grafana.yaml)</span><br><span class="line">---</span><br><span class="line">kind: PersistentVolumeClaim</span><br><span class="line">apiVersion: v1</span><br><span class="line">metadata:</span><br><span class="line">  name: grafana-storage-claim</span><br><span class="line">  namespace: monitoring</span><br><span class="line">  annotations:</span><br><span class="line">    #volume.beta.kubernetes.io/storage-class: &quot;my-nfs-storage-class&quot;</span><br><span class="line">    volume.beta.kubernetes.io/storage-class: &quot;managed-nfs-storage&quot;</span><br><span class="line">spec:</span><br><span class="line">  accessModes:</span><br><span class="line">    - ReadWriteMany</span><br><span class="line">  resources:</span><br><span class="line">    requests:</span><br><span class="line">      storage: 10Gi</span><br><span class="line">      </span><br><span class="line"># 创建pv</span><br><span class="line">kubectl create -f grafana.yaml</span><br><span class="line"></span><br><span class="line"># 定义persistentVolumeClaim</span><br><span class="line">persistentVolumeClaim:</span><br><span class="line">  claimName: grafana-storage-claim</span><br><span class="line">  </span><br><span class="line"># 启动grafana</span><br></pre></td></tr></table></figure>
+
+<p>此种配置方法需在grafana创建之前预先做一些工作，好处是数据能够一直存在固定的pv上，下面介绍如何通过项目进行定义</p>
+</li>
+<li><p>定义values.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">persistence:</span><br><span class="line">  enabled: true</span><br><span class="line">  storageClassName: managed-nfs-storage</span><br><span class="line">  accessModes:</span><br><span class="line">    - ReadWriteOnce</span><br><span class="line">  size: 10Gi</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>按此类方法配置后有一个问题，一定要确保动态pv创建时定义的垃圾回收为<code>Retain</code>,否则一但Pod对应的资源（Deployment）被删除后则无法再使用之前的PV，就算后台achived了这份数据也无法直接通过迁移到新的PV上而实现服务正常，那么是完全不能恢复嘛？那当然不会，那么也需要改为上面介绍的那种方式进行修复（其实应该还有挺多方法，就没有去验证）；不过即便采用了Retain方式后操作了Pod的删除同样需要额外的操作才能恢复</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 查看pv，处于Bound</span><br><span class="line">kubectl get pv</span><br><span class="line">pvc-96e431ee-7ec9-11e9-8f83-00505693fec2   10Gi       RWO            Retain           Bound    monitoring/promethues-operator-grafana                                                                                      managed-nfs-storage            11m</span><br><span class="line"></span><br><span class="line"># 手动删除grafana的deployment</span><br><span class="line">kubectl delete deployment grafana -n monitoring</span><br><span class="line"></span><br><span class="line"># 查看pv，处于Released</span><br><span class="line">kubectl get pv</span><br><span class="line">pvc-96e431ee-7ec9-11e9-8f83-00505693fec2   10Gi       RWO            Retain           Released   monitoring/promethues-operator-grafana                                                                                      managed-nfs-storage            14m</span><br><span class="line"></span><br><span class="line"># 此时我们需要将其之前服务的Pod信息进行擦除</span><br><span class="line">kubectl edit pv pvc-96e431ee-7ec9-11e9-8f83-00505693fec2 #将spec.claimRef&#123;&#125;下的内容删除</span><br><span class="line"></span><br><span class="line"># 查看pv，处于可用</span><br><span class="line">pvc-96e431ee-7ec9-11e9-8f83-00505693fec2   10Gi       RWO            Retain           Avaliable   monitoring/promethues-operator-grafana                                                                                      managed-nfs-storage            14m</span><br><span class="line"></span><br><span class="line"># 启动grafana即可恢复数据使用</span><br></pre></td></tr></table></figure>
+
+<p>不管何种方式其实都是存在一系列的操作成本，所以在日常维护中不到不得已的情况不要对Pod进行删除</p>
+</li>
+</ul>
+<h1 id="更新配置"><a href="#更新配置" class="headerlink" title="更新配置"></a>更新配置</h1><p>修改完配置后，需要重新进行加载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 更新配置</span><br><span class="line">helm upgrade  promethues-operator --namespace monitoring -f prome-settings.yaml prometheus-operator</span><br></pre></td></tr></table></figure>
+
+<p>最后来张效果图</p>
+<p><img src="pics/grafana-01.jpg" alt="image-20190526212344714"> </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/07/What-is-Docker/" rel="next" title="What Is Docker">
+                <i class="fa fa-chevron-left"></i> What Is Docker
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/07/Jenkins/" rel="prev" title="Jenkins">
+                Jenkins <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">EnHua Li</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载项目"><span class="nav-number">1.1.</span> <span class="nav-text">下载项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动服务"><span class="nav-number">1.2.</span> <span class="nav-text">启动服务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参数配置"><span class="nav-number">2.</span> <span class="nav-text">参数配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义配置文件"><span class="nav-number">2.1.</span> <span class="nav-text">定义配置文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#持久化"><span class="nav-number">3.</span> <span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HostPath"><span class="nav-number">3.0.1.</span> <span class="nav-text">HostPath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Persistent-Volume-Claim"><span class="nav-number">3.0.2.</span> <span class="nav-text">Persistent Volume Claim</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#更新配置"><span class="nav-number">4.</span> <span class="nav-text">更新配置</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">EnHua Li</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'cNklcKFbAgxogfWAiMrFAqlu-gzGzoHsz',
+        appKey: '0tbzEDE3H9QgbtJz23d05e0N',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

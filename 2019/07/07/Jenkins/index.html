@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins">
+<meta property="og:url" content="https://enhuali.com/2019/07/07/Jenkins/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins_01.png">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-01">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-02">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-03">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-04">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-05">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-06">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-Kubernetes-07">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-Kubernetes-08">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-Gitlab-09">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-Gitlab-10">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-Job-11">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-Job-12">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-Job-13">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-Job-14">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-Job-15">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-jenkinsfile-16">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-Build-17">
+<meta property="og:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins-Build-18">
+<meta property="og:updated_time" content="2019-07-08T02:48:55.484Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jenkins">
+<meta name="twitter:image" content="https://enhuali.com/2019/07/07/Jenkins/pics/Jenkins_01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://enhuali.com/2019/07/07/Jenkins/">
+
+
+
+
+
+  <title>Jenkins | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://enhuali.com/2019/07/07/Jenkins/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="EnHua Li">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Jenkins</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T20:32:39+08:00">
+                2019-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/07/Jenkins/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/07/Jenkins/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="pics/Jenkins_01.png" alt="img"></p>
+<a id="more"></a>
+
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ol>
+<li><p>jenkins安装方式比较多样化，具体可以参考<a href="https://jenkins.io/zh/doc/book/installing/" target="_blank" rel="noopener">Jenkins官网</a>，我们这里使用K8s集群容器化部署服务，所以我们在开始之前需要有一套k8s集群环境，接下来看启动服务的相关文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"># pv文件(jenkins-pv.yaml)</span><br><span class="line">---</span><br><span class="line">kind: PersistentVolumeClaim</span><br><span class="line">apiVersion: v1</span><br><span class="line">metadata:</span><br><span class="line">  name: jenkins-pvc</span><br><span class="line">  annotations:</span><br><span class="line">    volume.beta.kubernetes.io/storage-class: &quot;managed-nfs-storage&quot;</span><br><span class="line">spec:</span><br><span class="line">  accessModes:</span><br><span class="line">    - ReadWriteMany</span><br><span class="line">  resources:</span><br><span class="line">    requests:</span><br><span class="line">      storage: 200Gi</span><br><span class="line">      </span><br><span class="line">      </span><br><span class="line"># 主程序文件（jenkins-master.yaml）</span><br><span class="line">---</span><br><span class="line">apiVersion: extensions/v1beta1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: pro-jenkins</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        run: pro-jenkins</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: jenkins</span><br><span class="line">        image: jenkins/jenkins</span><br><span class="line">        imagePullPolicy: IfNotPresent</span><br><span class="line">        env:</span><br><span class="line">        - name: JAVA_OPTS</span><br><span class="line">          value: &apos;-Duser.timezone=Asia/Shanghai&apos;</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 8080</span><br><span class="line">          name: web</span><br><span class="line">        - containerPort: 50000</span><br><span class="line">          name: agent</span><br><span class="line">        volumeMounts:</span><br><span class="line">        - name: workspace</span><br><span class="line">          mountPath: /var/jenkins_home</span><br><span class="line">      volumes:</span><br><span class="line">        - name: workspace</span><br><span class="line">          persistentVolumeClaim:</span><br><span class="line">            claimName: jenkins-pvc</span><br><span class="line">      dnsConfig:</span><br><span class="line">        options:</span><br><span class="line">         - name: ndots</span><br><span class="line">           value: &quot;1&quot;</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: pro-jenkins</span><br><span class="line">  labels:</span><br><span class="line">    run: pro-jenkins</span><br><span class="line">spec:</span><br><span class="line">  type: NodePort</span><br><span class="line">  selector:</span><br><span class="line">    run: pro-jenkins</span><br><span class="line">  ports:</span><br><span class="line">  - name: web</span><br><span class="line">    port: 8080</span><br><span class="line">    nodePort: 31080</span><br><span class="line">  - name: agent</span><br><span class="line">    port: 50000</span><br><span class="line">    nodePort: 31050</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">apiVersion: extensions/v1beta1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: ingress-jenkins</span><br><span class="line">spec:</span><br><span class="line">  rules:</span><br><span class="line">  - host: jenkins.ingress.com</span><br><span class="line">    http:</span><br><span class="line">      paths:</span><br><span class="line">      - path: /</span><br><span class="line">        backend:</span><br><span class="line">          serviceName: pro-jenkins</span><br><span class="line">          servicePort: 8080</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>jenkins-pv.yaml</code> 创建一个pvc作为数据持久化所用。</li>
+<li><code>jenkins-master.yaml</code> 定义使用pvc；nodePort申明端口，部署后通过http://$cluster_ip:nodePort进行服务访问；当集群使用ingress服务时，创建ingress规则可以通过<a href="http://jenkins.ingress.com进行访问；" target="_blank" rel="noopener">http://jenkins.ingress.com进行访问；</a></li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li><p>启动服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 启动</span><br><span class="line">kubectl create -f jenkins-pv.yaml</span><br><span class="line">kubectl create -f jenkins-master.yaml</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><ul>
+<li><p><img src="pics/Jenkins-01" alt="image-20190527110926848"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 在之前定义的共享存储目录下获取</span><br><span class="line">cat secrets/initialAdminPassword</span><br><span class="line">d777b3a282szks2bfd28a16c8dd61ds</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><img src="pics/Jenkins-02" alt="image-20190527111944672"></p>
+<p>选择”安装推荐的插件”下一步</p>
+</li>
+<li><p><img src="pics/Jenkins-03" alt="image-20190527112443906"></p>
+<p>等待片刻</p>
+</li>
+<li><p><img src="pics/Jenkins-04" alt="image-20190527112638385"></p>
+<p>定义管理员账号信息</p>
+</li>
+<li><p><img src="pics/Jenkins-05" alt="image-20190527113023179"></p>
+</li>
+</ul>
+<p><img src="pics/Jenkins-06" alt="image-20190527113051534"></p>
+<p>初始化完毕</p>
+<h1 id="插件安装配置"><a href="#插件安装配置" class="headerlink" title="插件安装配置"></a>插件安装配置</h1><p>“Manage Jenkins”-&gt;”Manage Plugins”-&gt;”Available” 进行插件安装</p>
+<h2 id="Pipeline"><a href="#Pipeline" class="headerlink" title="Pipeline"></a>Pipeline</h2><p>代替传纯统工作模式，提高脚本复用性，在项目中定义所有项目逻辑，安装即可支持此工作模式，无需配置</p>
+<h2 id="Kubernetes"><a href="#Kubernetes" class="headerlink" title="Kubernetes"></a>Kubernetes</h2><p>用于识别k8s集群并调用其相关接口进行Job发布</p>
+<p>“系统管理”-&gt;”系统管理”-&gt;”云”-&gt;”新增一个云”-&gt;”Kubernetes”</p>
+<p><img src="pics/Jenkins-Kubernetes-07" alt="image-20190527120945458"></p>
+<p><code>名称</code> 自定义即可</p>
+<p><code>Kubernetes 地址</code> kubectl get svc查看解析，其中default代表的namespace；</p>
+<p><code>Kubernetes 服务证书key</code> kubernetes集群的ca证书，通常在/etc/kubernetes/ssl/ca.pem</p>
+<p><code>Jenkins 地址</code> kubectl get svc查看jenkins的解析，其中default代表的namespace；</p>
+<p><code>凭据</code> 用于连接配置的Kubernetes集群后接口调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">echo “kubeconfig下certificate-authority-data” | base64 -d &gt; /tmp/ca.crt</span><br><span class="line">echo “kubeconfig下client-certificate-data” | base64 -d &gt; /tmp/client.crt</span><br><span class="line">echo “kubeconfig下client-key-data” | base64 -d &gt; /tmp/client.key</span><br><span class="line"># 生成client p12认证文件并下载到本地，执行下面命令时会让输入密码，需要输入后面使用</span><br><span class="line">openssl pkcs12 -export -out ./cert.pfx -inkey ./client.key -in ./client.crt -certfile ./ca.crt</span><br></pre></td></tr></table></figure>
+
+<p>新增凭据，将生成的cert.pfx上传，并输入刚才的密码</p>
+<p><img src="pics/Jenkins-Kubernetes-08" alt="image-20190527121630075"></p>
+<p> 添加完毕后可以点击链接测试，返回”success”则配置成功</p>
+<h2 id="Maven-Integration-Plugin"><a href="#Maven-Integration-Plugin" class="headerlink" title="Maven Integration Plugin"></a>Maven Integration Plugin</h2><p>编译java所用，同时可以提供pipeline内对docker镜像编译、上传等操作，由于此项目主要针对php且docker这块直接调用的api,所以先暂时不介绍插件，配置略</p>
+<h2 id="Blue-ocean"><a href="#Blue-ocean" class="headerlink" title="Blue ocean"></a>Blue ocean</h2><p>提供更好看的Web界面，用于任务触发、便于查看任务进度日志等，安装即可无需配置</p>
+<h2 id="Ssh"><a href="#Ssh" class="headerlink" title="Ssh"></a>Ssh</h2><p>用于连接到需要操作的节点，在传统使用Jenkins时必不可少的一个插件，此项目中没有用到，配置略</p>
+<h2 id="Active-choices"><a href="#Active-choices" class="headerlink" title="Active choices"></a>Active choices</h2><p>用于发布服务时的联动及分选，可限制可选参数，降低人员对于项目的误操作</p>
+<h2 id="Gitlab"><a href="#Gitlab" class="headerlink" title="Gitlab"></a>Gitlab</h2><p>用于在执行任务中获取项目repo</p>
+<p>“系统管理”-&gt;”系统管理”-&gt;”Gitlab”</p>
+<p><img src="pics/Jenkins-Gitlab-09" alt="image-20190527135854249"></p>
+<p><code>connection name</code> 自定义名称</p>
+<p><code>Gitlab host URL</code> 需连接的gitlab主地址</p>
+<p><code>API-Level</code> 这块一定要选择v3，否则会报错Client error: HTTP 401 Unauthorized</p>
+<p><code>Credentials</code> 用于连接此gitlab的token</p>
+<p><img src="pics/Jenkins-Gitlab-10" alt="image-20190527140441067"></p>
+<p>点击”Test connection”进行测试，返回”success”则配置成功</p>
+<h1 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h1><h3 id="创建一个项目为”lienhua”"><a href="#创建一个项目为”lienhua”" class="headerlink" title="创建一个项目为”lienhua”"></a>创建一个项目为”lienhua”</h3><p><img src="pics/Jenkins-Job-11" alt="image-20190527140818224"></p>
+<h3 id="配置”参数化构建过程”，实现关联参数功能"><a href="#配置”参数化构建过程”，实现关联参数功能" class="headerlink" title="配置”参数化构建过程”，实现关联参数功能"></a>配置”参数化构建过程”，实现关联参数功能</h3><p>“添加参数”-&gt;”Active Choices Parameter”</p>
+<p><img src="pics/Jenkins-Job-12" alt="image-20190527142237715"></p>
+<p><code>Name</code> 变量名称</p>
+<p><code>Groovy Script</code> 内容定义了3个环境</p>
+<p><code>description</code> 注释定义了三个环境</p>
+<p><code>Choice Type</code> 选择Radio Buttons</p>
+<p>“添加参数”-&gt;”Active Choices Reactive Parameter”</p>
+<p><img src="pics/Jenkins-Job-13" alt="image-20190527144905046"></p>
+<p><code>Groovy Script</code> 关联三套环境可选择的操作（开发和测试环境支持更新和回滚，上线操作支持更新、回滚及灰度发布）</p>
+<p><code>Referenced parameters</code> 定义引用的参数</p>
+<p>“添加参数”-&gt;”Active Choices Reactive Parameter”</p>
+<p><img src="pics/Jenkins-Job-14" alt="image-20190527144941751"></p>
+<p><code>Groovy Script</code> 关联三套环境操作时使用的分支（dev/test/master），当操作为回滚时，分支为空即可</p>
+<p><code>Referenced parameters</code> 定义引用的参数，多个参数时用逗号隔开</p>
+<h3 id="定义流水线"><a href="#定义流水线" class="headerlink" title="定义流水线"></a>定义流水线</h3><p><img src="pics/Jenkins-Job-15" alt="image-20190527141711021"></p>
+<p><code>定义</code> 选择Pipeline script from SCM</p>
+<p><code>SCM</code> 选择Git</p>
+<p><code>Repositories</code> 填写存放pipeline脚本的git仓库地址</p>
+<p><code>Branchs to build</code> 定义获取使用的分支</p>
+<p><code>Credentials</code> 用于获取此repo的ssh-key，一定确保此key具有pull权限</p>
+<p><code>Additional Behaviours</code> 拽取下来的代码命名为jenkins</p>
+<p><code>脚本路径</code> Jenkinsfile在repo的相对位置</p>
+<h1 id="Jenkins逻辑"><a href="#Jenkins逻辑" class="headerlink" title="Jenkins逻辑"></a>Jenkins逻辑</h1><p><img src="pics/Jenkins-jenkinsfile-16" alt="image-20190527144337212"></p>
+<h1 id="构建项目"><a href="#构建项目" class="headerlink" title="构建项目"></a>构建项目</h1><p>“Build with Parameters” 选择预发布的环境点击”开始构建”即可</p>
+<p><img src="pics/Jenkins-Build-17" alt="image-20190527145103790"></p>
+<p>可点击”Blue Ocean”进行任务发布进度情况</p>
+<p><img src="pics/Jenkins-Build-18" alt="image-20190527151608820"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/07/Prometheus-operator/" rel="next" title="Prometheus-Operator">
+                <i class="fa fa-chevron-left"></i> Prometheus-Operator
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/07/Keepalived/" rel="prev" title="Keepalived">
+                Keepalived <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">EnHua Li</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初始化"><span class="nav-number">2.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插件安装配置"><span class="nav-number">3.</span> <span class="nav-text">插件安装配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pipeline"><span class="nav-number">3.1.</span> <span class="nav-text">Pipeline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes"><span class="nav-number">3.2.</span> <span class="nav-text">Kubernetes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven-Integration-Plugin"><span class="nav-number">3.3.</span> <span class="nav-text">Maven Integration Plugin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blue-ocean"><span class="nav-number">3.4.</span> <span class="nav-text">Blue ocean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ssh"><span class="nav-number">3.5.</span> <span class="nav-text">Ssh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Active-choices"><span class="nav-number">3.6.</span> <span class="nav-text">Active choices</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gitlab"><span class="nav-number">3.7.</span> <span class="nav-text">Gitlab</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建项目"><span class="nav-number">4.</span> <span class="nav-text">创建项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个项目为”lienhua”"><span class="nav-number">4.0.1.</span> <span class="nav-text">创建一个项目为”lienhua”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置”参数化构建过程”，实现关联参数功能"><span class="nav-number">4.0.2.</span> <span class="nav-text">配置”参数化构建过程”，实现关联参数功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义流水线"><span class="nav-number">4.0.3.</span> <span class="nav-text">定义流水线</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Jenkins逻辑"><span class="nav-number">5.</span> <span class="nav-text">Jenkins逻辑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构建项目"><span class="nav-number">6.</span> <span class="nav-text">构建项目</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">EnHua Li</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'cNklcKFbAgxogfWAiMrFAqlu-gzGzoHsz',
+        appKey: '0tbzEDE3H9QgbtJz23d05e0N',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
